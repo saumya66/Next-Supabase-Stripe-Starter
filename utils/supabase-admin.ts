@@ -68,7 +68,16 @@ const createOrRetrieveCustomer = async ({
         }
       };
     if (email) customerData.email = email;
-    const customer = await stripe.customers.create(customerData);
+    const customer = await stripe.customers.create({...customerData, 
+      // name: 'Jenny Rosen',
+      // address: {
+      //   line1: '510 Townsend St',
+      //   postal_code: '98140',
+      //   city: 'San Francisco',
+      //   state: 'CA',
+      //   country: 'US',
+      // },
+    });
     // Now insert the customer ID into our Supabase mapping table.
     const { error: supabaseError } = await supabaseAdmin
       .from('customers')

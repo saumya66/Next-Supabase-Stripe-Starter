@@ -22,6 +22,7 @@ export const getActiveProductsWithPrices = async (): Promise<
     console.log(error.message);
     throw error;
   }
+  console.log("dfdf",data)
   // TODO: improve the typing here.
   return (data as any) || [];
 };

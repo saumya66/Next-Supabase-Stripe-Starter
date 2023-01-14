@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactNode } from 'react';
 import {
   Box,
@@ -31,12 +31,17 @@ interface Props {
 type BillingInterval = 'year' | 'month';
 
 export default function Pricing({ products }: Props ) {
+  // console.log(products[0].prices)
   const router = useRouter();
   const [billingInterval, setBillingInterval] =
     useState<BillingInterval>('month');
   const [priceIdLoading, setPriceIdLoading] = useState<string>();
   const { user, isLoading, subscription } = useUser();
-
+  // useEffect(() => {
+  //   console.log("heelo")
+  //   console.log(subscription)
+  // }, [])
+  
   const handleCheckout = async (price: Price) => {
     setPriceIdLoading(price.id);
     if (!user) {
@@ -66,7 +71,7 @@ export default function Pricing({ products }: Props ) {
     return (
       <VStack spacing={2} textAlign="center">
       <Heading as="h1" fontSize="4xl" mt={6}>
-        No subscription pricing plans found. Create them in your{' '}
+        No Products Found.
       </Heading>
        <a
         className="text-pink-500 underline"
@@ -113,21 +118,21 @@ export default function Pricing({ products }: Props ) {
           justify="center"
           spacing={{ base: 4, lg: 10 }}
           py={10}>
-          {products.map((product) => {
-            const price = product?.prices?.find(
-              (price) => price.interval === billingInterval
-            );
-            if (!price) return null;
+          {products[0]?.prices?.map((price) => {
+            // const price = price?.find(
+            //   (price) => price.interval === billingInterval
+            // );
+            // if (!price) return null;
             const priceString = new Intl.NumberFormat('en-US', {
               style: 'currency',
               currency: price.currency,
               minimumFractionDigits: 0
             }).format((price?.unit_amount || 0) / 100);
             return (
-                <PriceWrapper key={product.id}>
+                <PriceWrapper key={price.id}>
                   <Box py={4} px={12}>
                     <Text fontWeight="500" fontSize="2xl">
-                    {product.name}
+                    {"Yo"}
                     </Text>
                     <HStack justifyContent="center">
                     
@@ -159,7 +164,8 @@ export default function Pricing({ products }: Props ) {
                     </List>
                     <Box w="80%" pt={7}>
                       <Button w="full" colorScheme="red" variant="outline" onClick={() => handleCheckout(price)} disabled={isLoading} isLoading={priceIdLoading === price.id}>
-                        {product.name === subscription?.prices?.products?.name ? 'Manage'
+                       
+                        {price.id === subscription?.price_id ? 'Manage'
                               : 'Subscribe'}
                       </Button>
                         </Box>

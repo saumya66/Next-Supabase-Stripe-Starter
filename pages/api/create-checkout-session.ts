@@ -3,6 +3,8 @@ import { withApiAuth } from '@supabase/auth-helpers-nextjs';
 import { createOrRetrieveCustomer } from 'utils/supabase-admin';
 import { getURL } from 'utils/helpers';
 
+
+//Thip api is hit after user hits subscribe
 export default withApiAuth(async function createCheckoutSession(
   req,
   res,
@@ -10,7 +12,7 @@ export default withApiAuth(async function createCheckoutSession(
 ) {
   if (req.method === 'POST') {
     const { price, quantity = 1, metadata = {} } = req.body;
-
+    console.log(price)
     try {
       const {
         data: { user }
@@ -20,7 +22,7 @@ export default withApiAuth(async function createCheckoutSession(
         uuid: user?.id || '',
         email: user?.email || ''
       });
-
+      console.log(customer)
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         billing_address_collection: 'required',

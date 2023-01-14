@@ -1,0 +1,30 @@
+Sample of a Product object in product[0] :
+{
+    id: 'prod_NAIVE7r1aEViYN',
+    active: true,
+    name: 'The Book',
+    description: 'This is a beautiful book',
+    image: null,
+    metadata: {},
+    prices: [ [Object], [Object], [Object] ]
+}
+
+Sample of a Price Object returned by stripe in product[0].prices[0] :
+{
+    id: 'price_1MPxupSJYXpxPR9BdVb7nCoO',
+    product_id: 'prod_NAIVE7r1aEViYN',
+    active: true,
+    description: null,
+    unit_amount: 1000,
+    currency: 'usd',
+    description: null,
+    unit_amount: 2000,
+    currency: 'usd',
+    type: 'recurring',
+    interval: 'month',
+    interval_count: 1,
+    trial_period_days: null,
+    metadata: {}
+}
+
+- To make new products make changes to ./fixtures/stripe-fixtures.json & run this on cmd : ./stripe.exe fixtures ./fixtures/stripe-fixtures.json
